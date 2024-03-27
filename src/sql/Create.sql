@@ -19,7 +19,7 @@ create table post(
                     published int,
                     createdAt timestamp,
                     updatedAt timestamp,
-                    CONSTRAINT post_user FOREIGN KEY (userId) REFERENCES user (id)
+                    CONSTRAINT post_user FOREIGN KEY (userId) REFERENCES user (id) ON DELETE CASCADE
 );
 
 
@@ -32,13 +32,14 @@ create table topic(
 create table postlike(
                       postid int,
                       userid int,
-                      CONSTRAINT postlike_post FOREIGN KEY (postid) REFERENCES post (id),
-                      CONSTRAINT postlike_user FOREIGN KEY (userid) REFERENCES user (id)
+                      CONSTRAINT postlike_post FOREIGN KEY (postid) REFERENCES post (id) ON DELETE CASCADE ,
+                      CONSTRAINT postlike_user FOREIGN KEY (userid) REFERENCES user (id) ON DELETE CASCADE
 );
 
 create table posttopic(
                          postid int,
                          topicid int,
-                         CONSTRAINT posttopic_post FOREIGN KEY (postid) REFERENCES post (id),
-                         CONSTRAINT posttopic_topic FOREIGN KEY (topicid) REFERENCES topic (id)
-);
+                         CONSTRAINT posttopic_post FOREIGN KEY (postid) REFERENCES post (id) ON DELETE CASCADE ,
+                         CONSTRAINT posttopic_topic FOREIGN KEY (topicid) REFERENCES topic (id) ON DELETE CASCADE
+
+                      );

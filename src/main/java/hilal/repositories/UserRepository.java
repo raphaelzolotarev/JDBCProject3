@@ -16,7 +16,6 @@ public class UserRepository {
                 "1234"
         );
         System.out.println("CONNECTION TO DB IS MADE");
-
         return connection;
     }
 
@@ -35,13 +34,40 @@ public class UserRepository {
     }
 
     public User read(long id) throws SQLException {
-
         Statement selectStatement = getConnection().createStatement();
-        // return null if fails
+        String query = "select * from user where id="+id;
+        ResultSet resultSet = selectStatement.executeQuery(query);
+        if(resultSet.next()){
+            return new User(
+                    resultSet.getInt("id"),
+                    resultSet.getString("username"),
+                    resultSet.getString("email"),
+                    resultSet.getString("role"),
+                    resultSet.getString("password"),
+                    resultSet.getTimestamp("createdat"),
+                    resultSet.getTimestamp("updatedat")
+            );
+        }
         return null;
     }
 
     public List<User> read(User example) throws SQLException {
+        Statement selectStatement = getConnection().createStatement();
+        String query = "select * from user where id="+example.getId();
+        ResultSet resultSet = selectStatement.executeQuery(query);
+        List<User> users = new ArrayList<>();
+        if(resultSet.next()){
+            users.add( new User(
+                        resultSet.getInt("id"),
+                        resultSet.getString("username"),
+                        resultSet.getString("email"),
+                        resultSet.getString("role"),
+                        resultSet.getString("password"),
+                        resultSet.getTimestamp("createdat"),
+                        resultSet.getTimestamp("updatedat"))
+                        );
+            return users;
+        }
         return Collections.emptyList();
     }
 
@@ -64,23 +90,20 @@ public class UserRepository {
     }
 
     public int update(int id, String password) throws SQLException {
-
         // Statement updateStatement = getConnection().createStatement();
-//        all ? here are query parameters with parameterIndexes..
-//        1st ? index is 0, 2nd ? index is 1 .
+        // all ? here are query parameters with parameterIndexes..
+        // 1st ? index is 0, 2nd ? index is 1 .
         String preparedQuery = "UPDATE user SET  password = ? WHERE id = ?";
         PreparedStatement updateStatement = getConnection().prepareStatement(preparedQuery);
-
         updateStatement.setString(1, password);
         updateStatement.setInt(2, id);
         return updateStatement.executeUpdate();
     }
 
     public int update(int id, User existingUser) throws SQLException {
-
         // Statement updateStatement = getConnection().createStatement();
-//        all ? here are query parameters with parameterIndexes..
-//        1st ? index is 0, 2nd ? index is 1 .
+        // all ? here are query parameters with parameterIndexes..
+        // 1st ? index is 0, 2nd ? index is 1 .
         String preparedQuery = "UPDATE user SET username = ?, email = ?, password = ? WHERE id = ?";
         PreparedStatement updateStatement = getConnection().prepareStatement(preparedQuery);
         updateStatement.setString(1, existingUser.getUsername());
@@ -91,15 +114,10 @@ public class UserRepository {
     }
 
     public int delete(int id) throws SQLException {
-
         String query = "DELETE FROM user WHERE id = ?";
         PreparedStatement deleteStatement = getConnection().prepareStatement(query);
-
         deleteStatement.setInt(1, id);
-
         return deleteStatement.executeUpdate();
-        // return false if fails
-
     }
 
 }

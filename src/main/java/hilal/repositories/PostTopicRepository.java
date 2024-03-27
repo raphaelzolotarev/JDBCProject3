@@ -17,7 +17,6 @@ private static Connection getConnection() throws SQLException {
                 "1234"
         );
         System.out.println("CONNECTION TO DB IS MADE");
-
         return connection;
     }
 

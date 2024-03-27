@@ -15,7 +15,7 @@ import java.util.List;
 public class InsertApp {
 
     public static void main(String[] args) {
-/*
+
         UserRepository userRepository=new UserRepository();
 
         try {
@@ -33,7 +33,7 @@ public class InsertApp {
         }
 
         System.out.println("*****************************");
-*/
+
 
         /*
         PostRepository postRepository = new PostRepository();
@@ -56,7 +56,7 @@ public class InsertApp {
         System.out.println("*****************************");
 */
 
-
+/*
         TopicRepository topicRepository = new TopicRepository();
         Topic topic = new Topic();
         try {
@@ -70,7 +70,7 @@ public class InsertApp {
             ;
         }
         System.out.println("*****************************");
-
+*/
 
     }
 }

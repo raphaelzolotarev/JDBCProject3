@@ -1,6 +1,8 @@
 package hilal.models;
 
 
+import java.sql.Timestamp;
+
 public class User {
 
   private long id;
@@ -11,6 +13,16 @@ public class User {
   private java.sql.Timestamp createdAt;
   private java.sql.Timestamp updatedAt;
 
+  public User(){}
+  public User(long id, String username, String email, String role, String password, Timestamp createdAt, Timestamp updatedAt) {
+    this.id = id;
+    this.username = username;
+    this.email = email;
+    this.role = role;
+    this.password = password;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+  }
 
   public long getId() {
     return id;

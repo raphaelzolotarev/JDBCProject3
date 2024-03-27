@@ -7,6 +7,12 @@ public class Topic {
     private String name;
     private String slug;
 
+    public Topic(){}
+    public Topic(long id, String name, String slug) {
+        this.id = id;
+        this.name = name;
+        this.slug = slug;
+    }
 
     public long getId() {
         return id;

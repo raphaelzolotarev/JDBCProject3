@@ -1,10 +1,10 @@
 package hilal.repositories;
 
 import hilal.models.PostLike;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import hilal.models.Topic;
+
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,36 +17,38 @@ private static Connection getConnection() throws SQLException {
                 "1234"
         );
         System.out.println("CONNECTION TO DB IS MADE");
-
         return connection;
     }
 
     public long create(PostLike newPostLike) throws SQLException {
-
         Statement createStatement = getConnection().createStatement();
-
-        // add create statements here..
-
-        // if fails return -1
-        return -1;
+        String query = "Update postlike Set postid=?,userid=? where postid=?";
+        PreparedStatement updateStatement = getConnection().prepareStatement(query);
+        updateStatement.setLong(1, newPostLike.getPostId());
+        updateStatement.setLong(2, newPostLike.getUserId());
+        return updateStatement.executeUpdate();
     }
 
     public PostLike read(long id) throws SQLException {
-
         Statement selectStatement = getConnection().createStatement();
-
-
-        // return null if fails
+        String query = "select * from postlike where id="+id;
+        PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if( resultSet.next() ){
+            return new PostLike(resultSet.getInt("postid"), resultSet.getInt("userid"));
+        }
         return null;
     }
 
     public List<PostLike> read(PostLike example) throws SQLException {
-
         Statement selectStatement = getConnection().createStatement();
-
-        // add read statements here..
-
-        // return empty collection if fails
+        String query = "select * from postlike where id="+example.getPostId();
+        ResultSet result = selectStatement.executeQuery(query);
+        List<PostLike> list = new ArrayList<>();
+        if (result.next()) {
+            list.add(new PostLike(result.getInt("postid"),result.getInt("userid")) );
+            return list;
+        }
         return Collections.emptyList();
     }
 

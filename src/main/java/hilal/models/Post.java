@@ -1,6 +1,8 @@
 package hilal.models;
 
 
+import java.sql.Timestamp;
+
 public class Post {
 
   private long id;
@@ -14,6 +16,19 @@ public class Post {
   private java.sql.Timestamp createdAt;
   private java.sql.Timestamp updatedAt;
 
+  public Post(){}
+  public Post(long id, long userId, String title, String slug, long views, String image, String body, long published, Timestamp createdAt, Timestamp updatedAt) {
+    this.id = id;
+    this.userId = userId;
+    this.title = title;
+    this.slug = slug;
+    this.views = views;
+    this.image = image;
+    this.body = body;
+    this.published = published;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+  }
 
   public long getId() {
     return id;

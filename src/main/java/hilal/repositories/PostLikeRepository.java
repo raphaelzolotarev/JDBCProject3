@@ -53,27 +53,32 @@ private static Connection getConnection() throws SQLException {
     }
 
     public List<PostLike> read() throws SQLException {
-
         Statement selectStatement = getConnection().createStatement();
-
-        // return empty collection if fails
+        String query = "select * from postlike";
+        ResultSet result = selectStatement.executeQuery(query);
+        List<PostLike> list = new ArrayList<>();
+        while (result.next()) {
+            list.add(new PostLike(result.getInt("postid"),result.getInt("userid")) );
+        }
+        if (list.size()>0){
+            return list;
+        }
         return Collections.emptyList();
     }
 
     public boolean update(long id, PostLike existingPostLike) throws SQLException {
-
-        Statement updateStatement = getConnection().createStatement();
-
-        // return false if fails
-        return false;
+        String query = "update postlike set postid=?, userid=? where postid=?";
+        PreparedStatement preparedStatement = getConnection().prepareStatement(query);
+        preparedStatement.setLong(1, existingPostLike.getPostId());
+        preparedStatement.setLong(2, existingPostLike.getUserId());
+        preparedStatement.setLong(3, existingPostLike.getPostId());
+        return preparedStatement.execute();
     }
 
     public boolean delete(long id) throws SQLException {
-
-        Statement deleteStatement = getConnection().createStatement();
-
-        // return false if fails
-        return false;
+        String query = "delete from postlike where postid="+id;
+        Statement statement = getConnection().createStatement();
+        return statement.execute(query);
     }
 
 }
